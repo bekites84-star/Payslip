@@ -376,8 +376,8 @@ const DEFAULTS = {
   sbhPct: 100,
   sbaPct: 100,
   pensionPct: 7,
-  unionRetPct: 0.5,
-  unionMemPct: 0.5,
+  unionRetPct: 0.45930317,
+  unionMemPct: 0.45930317,
   pilotsAssoc: 1500,
   e4e: 10,
 };
@@ -476,13 +476,15 @@ function load() {
       if (!saved.dhdFull) saved.dhdOtPct = 100;
       // v1.7: SBH and SBA count in full. Move saved settings off the earlier 25% once.
       if (!saved.sbFull) { saved.sbhPct = 100; saved.sbaPct = 100; }
+      // v2.1: both union deductions are 0.45930317% of basic. Move saved settings off 0.5% once.
+      if (!saved.union2) { saved.unionRetPct = 0.45930317; saved.unionMemPct = 0.45930317; }
       return { ...DEFAULTS, ...saved };
     }
   } catch (e) { /* storage unavailable */ }
   return { ...DEFAULTS };
 }
 function save(v) {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify({ ...v, dhdFull: true, sbFull: true })); } catch (e) { /* storage unavailable */ }
+  try { localStorage.setItem(STORE_KEY, JSON.stringify({ ...v, dhdFull: true, sbFull: true, union2: true })); } catch (e) { /* storage unavailable */ }
 }
 
 // Fields entered as HH:MM and kept to the exact minute.
