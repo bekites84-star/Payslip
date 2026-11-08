@@ -241,9 +241,8 @@
         </div>
 
         <details>
-          <summary>Rates &amp; fixed deductions</summary>
+          <summary>Earnings rates</summary>
 
-          <div class="sub">Earnings rates</div>
           <div class="field">
             <label for="otRatePct">Overtime rate<small>% of basic pay, per hour</small></label>
             <input class="num" type="text" inputmode="decimal" id="otRatePct">
@@ -276,28 +275,31 @@
             <input class="num" type="text" inputmode="decimal" id="sbaPct">
           </div>
 
-          <div class="sub">Deductions</div>
-          <div class="field">
-            <label for="pensionPct">Employee pension<small>% of basic pay</small></label>
-            <input class="num" type="text" inputmode="decimal" id="pensionPct">
-          </div>
-          <div class="field">
-            <label for="unionRetPct">Labor union retirement support<small>% of basic pay</small></label>
-            <input class="num" type="text" inputmode="decimal" id="unionRetPct">
-          </div>
-          <div class="field">
-            <label for="unionMemPct">Labor union membership<small>% of basic pay</small></label>
-            <input class="num" type="text" inputmode="decimal" id="unionMemPct">
-          </div>
-          <div class="field">
-            <label for="pilotsAssoc">Pilots association</label>
-            <input class="num" type="text" inputmode="decimal" id="pilotsAssoc">
-          </div>
-          <div class="field">
-            <label for="e4e">Ethiopian for Ethiopian fund</label>
-            <input class="num" type="text" inputmode="decimal" id="e4e">
-          </div>
         </details>
+      </section>
+
+      <section class="card">
+        <h2>Deductions</h2>
+        <div class="field">
+          <label for="pensionPct">Employee pension<small id="pensionAmt">% of basic pay</small></label>
+          <input class="num" type="text" inputmode="decimal" id="pensionPct">
+        </div>
+        <div class="field">
+          <label for="unionRetPct">ET labor union retirement support<small id="unionRetAmt">% of basic pay</small></label>
+          <input class="num" type="text" inputmode="decimal" id="unionRetPct">
+        </div>
+        <div class="field">
+          <label for="unionMemPct">ET labor union membership<small id="unionMemAmt">% of basic pay</small></label>
+          <input class="num" type="text" inputmode="decimal" id="unionMemPct">
+        </div>
+        <div class="field">
+          <label for="pilotsAssoc">Pilots association<small>ETB per month</small></label>
+          <input class="num" type="text" inputmode="decimal" id="pilotsAssoc">
+        </div>
+        <div class="field">
+          <label for="e4e">Ethiopian for Ethiopian fund<small>ETB per month</small></label>
+          <input class="num" type="text" inputmode="decimal" id="e4e">
+        </div>
       </section>
     </div>
 
@@ -525,6 +527,10 @@ function render() {
   $("otHours_h").disabled = $("otHours_m").disabled = v.otAuto;
   if (v.otAuto) setHM("otHours", r.otHours);
   const share = (pct) => pct === 100 ? "counted in full toward overtime" : `${pct}% counts toward overtime`;
+  const pctHint = (pct) => `% of basic pay · ${fmt(r2(v.basic * pct / 100))} ETB`;
+  $("pensionAmt").textContent = pctHint(v.pensionPct);
+  $("unionRetAmt").textContent = pctHint(v.unionRetPct);
+  $("unionMemAmt").textContent = pctHint(v.unionMemPct);
   $("sbhHint").textContent = `HH:MM · standby at home, ${share(v.sbhPct)}`;
   $("sbaHint").textContent = `HH:MM · standby at the airport, ${share(v.sbaPct)}`;
   $("otHint").textContent = v.otAuto

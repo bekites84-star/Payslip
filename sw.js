@@ -1,5 +1,5 @@
 // Offline cache: serve app files from cache, refresh in the background.
-const CACHE = "payslip-v14";
+const CACHE = "payslip-v15";
 const FILES = [
   "./", "./index.html", "./manifest.webmanifest",
   "./icons/icon-180.png", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-32.png",
