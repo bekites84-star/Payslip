@@ -332,6 +332,7 @@
       <div class="taxbox" id="taxBox"></div>
 
       <p class="footnote">Rates and deductions were matched to the September 2026 payslip. Overtime counts flight, DHD, SBH and SBA hours together above 80. Hours are turned into decimals cut at two places, not rounded (81:58 = 81.96). Enter your basic pay and housing allowance once; they stay saved on this device only.</p>
+      <p class="footnote" id="appVersion">Version 2.3</p>
     </section>
   </div>
 </div>
@@ -604,7 +605,16 @@ $("themeBtn").addEventListener("click", () => {
 paintTheme();
 
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).then((reg) => reg.update()).catch(() => {});
+  });
+  // When a new version takes over, reload once so it shows straight away.
+  // (Not on the very first visit, when there was no older version.)
+  const hadOld = !!navigator.serviceWorker.controller;
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hadOld || reloaded) return; reloaded = true; location.reload();
+  });
 }
 </script>
 </body>
